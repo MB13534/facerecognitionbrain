@@ -1,7 +1,7 @@
 import React from "react";
 import "./FaceRecgonition.css";
 
-const FaceRecgonition = ({ imgUrl, box }) => {
+const FaceRecgonition = ({ imgUrl, boxes }) => {
   return (
     <div className="center ma">
       <div className="absolute mt2 center">
@@ -12,15 +12,21 @@ const FaceRecgonition = ({ imgUrl, box }) => {
           width="500px"
           height="auto"
         />
-        <div
-          className="bounding-box"
-          style={{
-            top: box.topRow,
-            right: box.rightCol,
-            bottom: box.bottomRow,
-            left: box.leftCol,
-          }}
-        ></div>
+
+        {boxes.map((box, index) => {
+          return (
+            <div
+              key={index}
+              className="bounding-box"
+              style={{
+                top: box.topRow,
+                right: box.rightCol,
+                bottom: box.bottomRow,
+                left: box.leftCol,
+              }}
+            ></div>
+          );
+        })}
       </div>
     </div>
   );
