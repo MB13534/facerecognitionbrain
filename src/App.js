@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
+import axios from "axios";
 
 import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
@@ -35,8 +36,28 @@ class App extends Component {
       imgUrl: "",
       boxes: [],
       route: "signin",
+      isSignedIn: false,
+      user: {
+        id: "",
+        name: "",
+        email: "",
+        entries: 0,
+        joined: "",
+      },
     };
   }
+
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        date: data.joined,
+      },
+    });
+  };
 
   calculateFaceLocation = (data) => {
     const clarifaiFaces = data.outputs[0].data.regions.map(
@@ -97,7 +118,10 @@ class App extends Component {
         {route === "home" ? (
           <>
             <Logo />
-            <Rank />
+            <Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
@@ -105,9 +129,12 @@ class App extends Component {
             <FaceRecgonition imgUrl={imgUrl} boxes={boxes} />
           </>
         ) : route === "signin" ? (
-          <Signin onRouteChange={this.onRouteChange} />
+          <Signin onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
         ) : (
-          <Register onRouteChange={this.onRouteChange} />
+          <Register
+            onRouteChange={this.onRouteChange}
+            loadUser={this.loadUser}
+          />
         )}
       </div>
     );
