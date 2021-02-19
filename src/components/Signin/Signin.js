@@ -24,12 +24,9 @@ class Signin extends Component {
       password: this.state.signInPassword,
     });
     const { data: user } = response;
-    console.log(user);
-    if (user.id) {
+    if (user) {
       this.props.loadUser(user);
       this.props.onRouteChange("home");
-      // console.log("i am in");
-      // this.props.onRouteChange("home");
     }
   };
 
