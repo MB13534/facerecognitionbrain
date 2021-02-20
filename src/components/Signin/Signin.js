@@ -17,18 +17,38 @@ class Signin extends Component {
   onPasswordChange = (e) => {
     this.setState({ signInPassword: e.target.value });
   };
-
-  onSubmitSignIn = async () => {
-    const response = await axios.post("http://localhost:3000/signin", {
-      email: this.state.signInEmail,
-      password: this.state.signInPassword,
-    });
-    const { data: user } = response;
-    if (user) {
-      this.props.loadUser(user);
-      this.props.onRouteChange("home");
-    }
+  //TEST
+  onSubmitSignIn = () => {
+    axios
+      .post("http://localhost:3001/signin", {
+        email: this.state.signInEmail,
+        password: this.state.signInPassword,
+      })
+      .then(
+        ({ data: user }) => {
+          console.log(user);
+          if (user) {
+            this.props.loadUser(user);
+            this.props.onRouteChange("home");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
+
+  // onSubmitSignIn = async () => {
+  //   const response = await axios.post("http://localhost:3001/signin", {
+  //     email: this.state.signInEmail,
+  //     password: this.state.signInPassword,
+  //   });
+  //   const { data: user } = response;
+  //   if (user) {
+  //     this.props.loadUser(user);
+  //     this.props.onRouteChange("home");
+  //   }
+  // };
 
   render() {
     const { onRouteChange } = this.props;
