@@ -24,11 +24,14 @@ class Register extends Component {
   };
 
   onSubmitRegister = async () => {
-    const response = await axios.post("http://localhost:3001/register", {
-      email: this.state.email,
-      password: this.state.password,
-      name: this.state.name,
-    });
+    const response = await axios.post(
+      "https://murmuring-tundra-95824.herokuapp.com/register",
+      {
+        email: this.state.email,
+        password: this.state.password,
+        name: this.state.name,
+      }
+    );
     const { data: user } = response;
     if (user.id) {
       this.props.loadUser(user);
